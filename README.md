@@ -65,6 +65,7 @@ ollama serve
 on the terminal.
 
 Enter the port in the .env file.
+5. Install MySQL and setup a database and a table named 'users'.
 
 
 
