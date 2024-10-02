@@ -51,7 +51,7 @@ _Below is an example of how you can instruct your audience on installing and set
    ```
 3. Install PIP packages
 ```bash
-pip install pyTelegramBotAPI requests mysql-connector-python python-dotenv
+pip install telebot requests mysql-connector-python pyfiglet
 ```
 4. Install and Setup Ollama API.
 
