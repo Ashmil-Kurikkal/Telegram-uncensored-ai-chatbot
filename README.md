@@ -44,7 +44,6 @@ Do not miss a thing!
 
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
-0. Rename the .env_sample file to .env
 1. Create your bot from the BotFather on telegram and obtain the API token. Now either place the API token in line 134 of the python script or replace it in the env sample file.
 2. Clone the repo
    ```sh
@@ -66,7 +65,7 @@ on the terminal.
 
 Enter the port in the .env file.
 5. Install MySQL and setup a database and a table named 'users'.
-
+6. Run the python file main.py
 
 
 ## License
