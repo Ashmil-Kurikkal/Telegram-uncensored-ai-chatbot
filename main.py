@@ -3,20 +3,29 @@ import requests
 import json
 import mysql.connector
 import os
-from dotenv import load_dotenv
+import pyfiglet
 
-def configure():
-    load_dotenv()
 
+sql_username = input("Enter MySQL username. \n")
+sql_pass = input("\nEnter your MySQL password.\n")
+db_name = input("\nEnter your MySQL database name you'd like to use for storing user data.\n")
+ollama_api = input("\nEnter your Ollama port that shows up when you type Ollama Serve in your terminal.\nUsually something like = 'http://127.0.0.1:11434/api/chat\n")
+telegram_bot_token = input("\nEnter your Telegram bot token you would like to use the bot with, obtained from the BotFather bot.\n")
+owner_description = input("\nDescribe yourself briefly so if the user asks about the creator the model can use this info to give a proper description.\n")
+owner_name = input("\nEnter your name that you want to let the user know you by.\n")
+print("\n\nWaiting for users to text the bot.")
+
+asciish = pyfiglet.figlet_format("k3yb0ard")
+print(asciish)
 
 def connect_to_database():
     global database
     try:
         database = mysql.connector.connect(
             host='localhost',
-            database=os.getenv('DATABASE_NAME'),
-            user=os.getenv("MY_SQL_USERNAME"),
-            password=os.getenv("MY_SQL_PASSWORD")
+            database=db_name,
+            user=sql_username,
+            password=sql_pass
         )
         if database.is_connected():
             print('Connected to MySQL database')
@@ -62,7 +71,7 @@ def update_data(user_id, history):
         print(f"Error: {err}")
 
 def chat(messages):
-    port = os.getenv('OLLAMA_API')
+    port = ollama_api
     try:
         response = requests.post(port, json={"model": selected_model, "messages": messages, "stream": True}, stream=True)
         response.raise_for_status()
@@ -107,11 +116,9 @@ def history_check(username, user_id):
 
 def main(text):
     if text:
-        owner = "who is",os.getenv("OWNER"),"?"
-        if owner in text.lower():
+        if owner_name == text.lower():
             connect_to_database()
-            print(os.getenv("OWNER"))
-            text = os.getenv("ABOUT_OWNER")
+            text = owner_description
             messages.append({"role": "user", "content": text})
             response = chat(messages)
             messages.append({"role": "assistant", "content": response})
@@ -131,7 +138,7 @@ def main(text):
 
 
 # API token
-bot = telebot.TeleBot(os.getenv("TELEGRAM_API_TOKEN"))
+bot = telebot.TeleBot(telegram_bot_token)
 user_id = 0
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -169,7 +176,7 @@ def ailice_response(message):
             bot.reply_to(message, "Send 'clear' to remove previous chat context/history.\n\n\n !!!Clear history before switching to a new Model if you had a previous conversation!!!\n\n\n---------\n Send '1' for Alice-uncensored AI assistant. \n\n\nSend '2' for Alice-censored AI assistant. \n\n\nSend '3' for Deepseek-coder with better coding skills but low capability of engaging in conversations.")
             set_state(message.from_user.id, SELECT_LLM)
         else :
-            bot.reply_to(message,"Limitter to avoid heavy duty on the server lap\n\n\nANOTHER USER IN QUE. Click on /start first\nThen click on /ailice")
+            bot.reply_to(message,"Limitter to avoid heavy duty on the server \n\n\nANOTHER USER IN QUE. Click on /start first\nThen click on /ailice")
     else:
         bot.reply_to(message,"PLEASE INITIALISE BY /start COMMAND.")
 @bot.message_handler(func=lambda message: get_state(message.from_user.id) == SELECT_LLM)
@@ -186,7 +193,7 @@ def select_llm(message):
             bot.reply_to(message, "You're in que, searching for previous history with this model.")
             history_check(username, str(user_id))
             selected_model = "llama2-uncensored"
-            text = "Say that I have selected Ashlice-uncensored AI assistant created by",os.getenv("OWNER"),"based on the large language model llama2 and explain your capabilities very briefly."
+            text = "Say that I have selected Ashlice-uncensored AI assistant created by ashmil based on the large language model llama2 and explain your capabilities very briefly."
             reply_text = main(text)
             bot.reply_to(message, reply_text)
             set_state(message.from_user.id, CONTINUE_CONVERSATION)
@@ -195,7 +202,7 @@ def select_llm(message):
             bot.reply_to(message, "You're in que, searching for previous history with this model.")
             history_check(username, str(user_id))
             selected_model = "llama3"
-            text = "Say that I have selected Ashlice-3 AI assistant created by",os.getenv("OWNER"),"based on the large language model Llama3 and explain your capabilities very briefly."
+            text = "Say that I have selected Ashlice-3 AI assistant created by k3yb0ard based on the large language model Llama3 and explain your capabilities very briefly."
             reply_text = main(text)
             bot.reply_to(message, reply_text)
             set_state(message.from_user.id, CONTINUE_CONVERSATION)
