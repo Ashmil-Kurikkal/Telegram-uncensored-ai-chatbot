@@ -18,12 +18,12 @@ A Telegram bot scripted in python using Ollama API and MySQL for chat history.
 ![Logo](https://i.postimg.cc/K88h3t5V/logo1.jpg)
 
 This Telegram bot uses the [Ollama API](https://ollama.com/) to interact with users as a chatbot. It uses censored and uncensored Llama models, a coding-specific model (Deepseek-coder), and uses MySQL to maintain chat history.
-### Built With
+### Thanks to
 
-- [Python](https://python.org)
-- [Ollama](https://ollama.com)
-- [MySQL](https://mysql.com)
-- [Telegram Bots & The BotFather](https://telegram.org/blog/bot-revolution)
+- ![Python](https://img.shields.io/badge/python-3670A0?style=plastic&logo=python&logoColor=ffdd54)
+- [![Discord](https://dcbadge.vercel.app/api/server/ollama?style=flat&compact=true)](https://discord.gg/ollama)
+- ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=plastic&logo=mysql&logoColor=white)
+- ![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=plastic&logo=telegram&logoColor=white)
 ## Getting Started
 
 To get a local copy up and running follow these simple example steps.
