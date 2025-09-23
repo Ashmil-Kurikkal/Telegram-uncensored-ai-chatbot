@@ -1,73 +1,78 @@
-###Feel free to drop your own features and fixes 🤎
-<br/>
-<div align="center">
+# Telegram AI Chatbot with Local LLMs
 
-<h3 align="center">Telegram AI uncensored Chatbot</h3>
-<p align="center">
-A Telegram bot scripted in python using Ollama API and MySQL for chat history.
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) ![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)
 
+A well-documented starter template for developers looking to build a Telegram chatbot powered by a locally-hosted Large Language Model using Ollama.
 
-  
-
-
-</p>
-</div>
-
-## About The Project
+This approach ensures 100% user privacy and has zero API costs, making it ideal for experiments, personal assistants, or applications where data confidentiality is critical.
 
 ![Logo](https://i.postimg.cc/K88h3t5V/logo1.jpg)
 
-This Telegram bot uses the [Ollama API](https://ollama.com/) to interact with users as a chatbot. It uses censored and uncensored Llama models, a coding-specific model (Deepseek-coder), and uses MySQL to maintain chat history.
-### Thanks to
+## Key Features
 
-- ![Python](https://img.shields.io/badge/python-3670A0?style=plastic&logo=python&logoColor=ffdd54)
-- [![Discord](https://dcbadge.vercel.app/api/server/ollama?style=flat&compact=true)](https://discord.gg/ollama)
-- ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=plastic&logo=mysql&logoColor=white)
-- ![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=plastic&logo=telegram&logoColor=white)
+* **Local AI:** Leverages the Ollama API to interact with locally-run LLMs, ensuring privacy and control.
+* **Multi-Model Support:** Easily configurable to use various models, including general-purpose (Llama) and code-specific (Deepseek-coder) models.
+* **Chat History:** Uses a MySQL database to maintain a persistent chat history for each user, allowing for conversational context.
+
+## Tech Stack
+
+* **Backend:** Python
+* **AI Integration:** Ollama
+* **Database:** MySQL
+* **Messaging Platform:** Telegram Bot API
+* **Libraries:** `pyTelegramBotAPI`, `requests`, `mysql-connector-python`
+
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps.
+Follow these steps to get a local copy up and running.
+
 ### Prerequisites
 
-Do not miss a thing!
-### Requirements
-#### Software
-- Python 3
-- MySQL server
-- Ollama API
-- Telegram Bot API token
+* Python 3.8+
+* A running MySQL server
+* Ollama installed and running
+* A Telegram Bot API token from BotFather
 
-#### Hardware
-- 8 GB RAM (might not work, get 16 if you can)
-- GPU support is available on windows too after latest ollama update, fine with linux.
-### Installation
+### Installation & Setup
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+1.  **Clone the repository:**
+    ```sh
+    git clone [https://github.com/Ashmil-Kurikkal/Telegram-AI-Chat-Bot.git](https://github.com/Ashmil-Kurikkal/Telegram-AI-Chat-Bot.git)
+    cd Telegram-AI-Chat-Bot
+    ```
 
-1. Create your bot from the BotFather on telegram and obtain the API token. Now either place the API token in line 134 of the python script or replace it in the env sample file.
-2. Clone the repo
-   ```sh
-   git clone https://github.com/Ashmil-Kurikkal/Telegram-AI-Chat-Bot.git
-   ```
-3. Install PIP packages
+2.  **Create a `requirements.txt` file** containing the following lines:
+    ```
+    pyTelegramBotAPI
+    requests
+    mysql-connector-python
+    pyfiglet
+    python-dotenv
+    ```
+    Then, install the packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3.  **Configure Environment Variables:**
+    Rename the `.env.sample` file to `.env` and add your credentials. **Do not edit the Python script directly.**
+    ```env
+    TELEGRAM_BOT_TOKEN="YOUR_TELEGRAM_BOT_TOKEN"
+    OLLAMA_API_PORT="11434"
+    DB_HOST="localhost"
+    DB_USER="your_db_user"
+    DB_PASSWORD="your_db_password"
+    DB_NAME="your_db_name"
+    ```
+
+4.  **Set up the Database:**
+    Ensure your MySQL server is running. Create a database and a table named `users` using the schema from the `schema.sql` file.
+
+5.  **Ensure Ollama is Running:**
+    You can check the status by running `ollama serve` in a separate terminal. The bot will connect to it via the port specified in your `.env` file.
+
+## Usage
+
+Once everything is configured, run the main script:
 ```bash
-pip install telebot requests mysql-connector-python pyfiglet
-```
-4. Install and Setup Ollama API.
-
-Visit the Ollama website and follow the installation instructions for your system.
-
-Once installed, Ollama runs on localhost:11434 by default, to make sure, run 
-```sh
-ollama serve
-```
-on the terminal.
-
-Enter the port in the .env file.
-5. Install MySQL and setup a database and a table named 'users'.
-6. Run the python file main.py
-
-
-## License
-
-Distributed under the MIT License. See [MIT License](https://opensource.org/licenses/MIT) for more information.
+python main.py
