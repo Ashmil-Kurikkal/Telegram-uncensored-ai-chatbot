@@ -1,78 +1,144 @@
-# Telegram AI Chatbot with Local LLMs
+🤖 Telegram AI Chatbot Template (Local LLM via Ollama)
 
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) ![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)
+A robust, privacy-focused starter template for developers looking to build a Telegram chatbot powered by locally hosted Large Language Models (LLMs).
 
-A well-documented starter template for developers looking to build a Telegram chatbot powered by a locally-hosted Large Language Model using Ollama.
+This project bridges Telegram's Bot API with Ollama's local API, allowing you to run powerful AI models (like Llama 3 or DeepSeek) on your own hardware with zero API costs and 100% data privacy.
 
-This approach ensures 100% user privacy and has zero API costs, making it ideal for experiments, personal assistants, or applications where data confidentiality is critical.
+🚀 Key Features
 
-![Logo](https://i.postimg.cc/K88h3t5V/logo1.jpg)
+🔒 Privacy First: No data is sent to third-party AI clouds (OpenAI/Anthropic). Everything runs on your machine.
 
-## Key Features
+🧠 Multi-Model Support: Logic included to switch between models on the fly (e.g., General chat vs. Coding assistant).
 
-* **Local AI:** Leverages the Ollama API to interact with locally-run LLMs, ensuring privacy and control.
-* **Multi-Model Support:** Easily configurable to use various models, including general-purpose (Llama) and code-specific (Deepseek-coder) models.
-* **Chat History:** Uses a MySQL database to maintain a persistent chat history for each user, allowing for conversational context.
+💾 Persistent Context: Uses MySQL to store chat history, allowing the bot to remember previous interactions.
 
-## Tech Stack
+Queue Management: Built-in basic limitation system to prevent server overload from multiple users.
 
-* **Backend:** Python
-* **AI Integration:** Ollama
-* **Database:** MySQL
-* **Messaging Platform:** Telegram Bot API
-* **Libraries:** `pyTelegramBotAPI`, `requests`, `mysql-connector-python`
+Ollama API Example: A clear implementation of how to send JSON requests to the Ollama endpoint using Python requests.
 
-## Getting Started
+🛠️ Tech Stack
 
-Follow these steps to get a local copy up and running.
+Language: Python
 
-### Prerequisites
+AI Backend: Ollama (running locally)
 
-* Python 3.8+
-* A running MySQL server
-* Ollama installed and running
-* A Telegram Bot API token from BotFather
+Database: MySQL (for user history storage)
 
-### Installation & Setup
+Interface: pyTelegramBotAPI
 
-1.  **Clone the repository:**
-    ```sh
-    git clone [https://github.com/Ashmil-Kurikkal/Telegram-AI-Chat-Bot.git](https://github.com/Ashmil-Kurikkal/Telegram-AI-Chat-Bot.git)
-    cd Telegram-AI-Chat-Bot
-    ```
+📋 Prerequisites
 
-2.  **Create a `requirements.txt` file** containing the following lines:
-    ```
-    pyTelegramBotAPI
-    requests
-    mysql-connector-python
-    pyfiglet
-    python-dotenv
-    ```
-    Then, install the packages:
-    ```bash
-    pip install -r requirements.txt
-    ```
+Before running the bot, ensure you have the following installed:
 
-3.  **Configure Environment Variables:**
-    Rename the `.env.sample` file to `.env` and add your credentials. **Do not edit the Python script directly.**
-    ```env
-    TELEGRAM_BOT_TOKEN="YOUR_TELEGRAM_BOT_TOKEN"
-    OLLAMA_API_PORT="11434"
-    DB_HOST="localhost"
-    DB_USER="your_db_user"
-    DB_PASSWORD="your_db_password"
-    DB_NAME="your_db_name"
-    ```
+Python 3.8+
 
-4.  **Set up the Database:**
-    Ensure your MySQL server is running. Create a database and a table named `users` using the schema from the `schema.sql` file.
+MySQL Server (XAMPP, WAMP, or native installation)
 
-5.  **Ensure Ollama is Running:**
-    You can check the status by running `ollama serve` in a separate terminal. The bot will connect to it via the port specified in your `.env` file.
+Ollama
 
-## Usage
+Telegram Bot Token: Get one from @BotFather on Telegram.
 
-Once everything is configured, run the main script:
-```bash
+⚙️ Installation & Setup
+
+1. Clone the Repository
+
+git clone [https://github.com/Ashmil-Kurikkal/Telegram-AI-Chat-Bot.git](https://github.com/Ashmil-Kurikkal/Telegram-AI-Chat-Bot.git)
+cd Telegram-AI-Chat-Bot
+
+
+2. Install Dependencies
+
+pip install pyTelegramBotAPI requests mysql-connector-python pyfiglet
+
+
+3. Database Configuration
+
+You must create the database and table before running the script. Open your MySQL client and run the following SQL commands:
+
+CREATE DATABASE telegram_bot_db;
+
+USE telegram_bot_db;
+
+CREATE TABLE users (
+    username VARCHAR(255),
+    user_id VARCHAR(255) PRIMARY KEY,
+    history JSON
+);
+
+
+4. Pull the AI Models
+
+This bot is configured to use specific models. Open your terminal and pull them via Ollama:
+
+ollama pull llama3
+ollama pull deepseek-coder
+
+# Optional: Pull 'llama2-uncensored' if you wish to use option 1 in the menu
+ollama pull llama2-uncensored
+
+
+5. Add Assets
+
+Place an image named logo1.jpg in the root directory of the project. This image is sent to users when they type /start.
+
+🚀 Usage
+
+1. Start Ollama
+
+Ensure the Ollama server is running.
+
+ollama serve
+
+
+2. Run the Bot
+
 python main.py
+
+
+3. Configure on Launch
+
+The script uses an interactive setup. When you run it, you will be prompted to enter:
+
+MySQL Username & Password
+
+Database Name (e.g., telegram_bot_db)
+
+Ollama API Port (Default is usually http://127.0.0.1:11434/api/chat)
+
+Telegram Bot Token
+
+Owner Name & Description (Used for the bot's system prompt)
+
+4. Chat
+
+Open Telegram, find your bot, click Start, and use the /ailice command to begin the session.
+
+🧩 Understanding the Code (Ollama Integration)
+
+Many developers struggle with the Ollama API structure. This template demonstrates the correct way to structure the request in Python:
+
+# Snippet from main.py
+response = requests.post(
+    "[http://127.0.0.1:11434/api/chat](http://127.0.0.1:11434/api/chat)", 
+    json={
+        "model": "llama3", 
+        "messages": [{"role": "user", "content": "Hello!"}], 
+        "stream": True 
+    }, 
+    stream=True
+)
+
+
+endpoint: /api/chat is used for conversational history (as opposed to /api/generate).
+
+stream=True: Essential for handling long responses without timeouts, though this bot currently accumulates the stream before sending the final message to Telegram.
+
+🤝 Contributing
+
+Contributions are welcome! If you want to add .env file support, improve the queuing system, or add Docker support, feel free to fork the repo and submit a pull request.
+
+📜 License
+
+Distributed under the MIT License. See LICENSE for more information.
+
+Created by Ashmil-Kurikkal
