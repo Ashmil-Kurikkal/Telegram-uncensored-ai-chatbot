@@ -1,3 +1,5 @@
+
+
 🤖 Telegram AI Chatbot Template (Local LLM via Ollama)
 
 A robust, privacy-focused starter template for developers looking to build a Telegram chatbot powered by locally hosted Large Language Models (LLMs).
@@ -111,7 +113,7 @@ Owner Name & Description (Used for the bot's system prompt)
 
 4. Chat
 
-Open Telegram, find your bot, click Start, and use the /ailice command to begin the session.
+Open Telegram, find your bot, and send `/start`. Then, use the `/ailice` command to bring up the model selection menu (send 1, 2, or 3) to begin the session.
 
 🧩 Understanding the Code (Ollama Integration)
 
